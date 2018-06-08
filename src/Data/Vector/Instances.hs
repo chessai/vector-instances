@@ -22,7 +22,7 @@ import Data.Semigroup
 import Data.Hashable (Hashable(..))
 #endif
 import Data.Key
-import Data.Functor.Bind
+import Data.Functor.Semimonad
 import Data.Functor.Extend
 import Data.Functor.Plus
 import Data.Pointed
@@ -79,7 +79,7 @@ instance FoldableWithKey Vector where
   foldlWithKey = Vector.ifoldl
   {-# INLINE foldlWithKey #-}
 
-instance Apply Vector where
+instance Semiapplicative Vector where
   fs <.> as =
     G.unstream $ Stream.sized results (Exact n)
     where
@@ -92,7 +92,7 @@ instance Pointed Vector where
   point = Vector.singleton
   {-# INLINE point #-}
 
-instance Bind Vector where
+instance Semimonad Vector where
   v >>- f = Vector.concatMap f v
   {-# INLINE (>>-) #-}
 
